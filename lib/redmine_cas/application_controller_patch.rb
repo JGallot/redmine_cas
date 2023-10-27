@@ -1,5 +1,3 @@
-#require 'redmine_cas'
-
 module RedmineCas
   module ApplicationControllerPatch 
     module InstanceMethods

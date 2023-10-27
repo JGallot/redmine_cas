@@ -2,8 +2,6 @@ require 'redmine'
 require File.expand_path('../lib/redmine_cas.rb', __FILE__)
 require File.expand_path('../lib/redmine_cas/application_controller_patch', __FILE__)
 require File.expand_path('../lib/redmine_cas/account_controller_patch.rb', __FILE__)
-
-
 require File.expand_path('../lib/redmine_cas_hook_listener', __FILE__)
 
 Redmine::Plugin.register :redmine_cas do
@@ -25,11 +23,14 @@ Redmine::Plugin.register :redmine_cas do
 
   }, :partial => 'redmine_cas/settings'
 
+  RedmineApp::Application.config.after_initialize do
+    ApplicationController.prepend(RedmineCas::ApplicationControllerPatch)
+    AccountController.prepend(RedmineCas::AccountControllerPatch)
+  end
 
-  ApplicationController.prepend(RedmineCas::ApplicationControllerPatch)
-  AccountController.prepend(RedmineCas::AccountControllerPatch)
 
   ActionDispatch::Callbacks.before do
     RedmineCas.setup!
   end
+
 end

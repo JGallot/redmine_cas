@@ -1,7 +1,11 @@
 require File.expand_path('../../../lib/redmine_cas.rb', __FILE__)
 
   module RedmineCas
-    module AccountControllerPatch 
+    module AccountControllerPatch
+      def login
+        return redirect_to(:controller => "account", :action => "cas") # unless RedmineCas.enabled? && RedmineCas.hide_local_login?
+      end
+
       def logout_with_cas
         return logout_without_cas unless RedmineCas.enabled?
         logout_user

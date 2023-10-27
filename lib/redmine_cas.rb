@@ -16,6 +16,10 @@ module RedmineCas
     setting(:autocreate_users)
   end
 
+  def hide_local_login?
+    setting(:hide_local_login)
+  end
+
   def setup!
     return unless enabled?
     CASClient::Frameworks::Rails::Filter.configure(
