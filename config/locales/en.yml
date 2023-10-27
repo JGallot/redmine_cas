@@ -8,3 +8,8 @@ en:
   redmine_cas_settings_autocreate_users_helptext: 'Automatically create a redmine user if it is successfully authenticated.<br />Will only work if you specify firstname, lastname and mail in the attributes mapping setting above.'
   redmine_cas_user_not_found: '"%{user}" was authenticated but needs to be created in Redmine first.'
   redmine_cas_user_not_created: '"%{user}" was authenticated but could not be created automatically in Redmine. It must be added manually.'
+  redmine_cas_settings_hide_local_login_label: 'Hide local connexion'
+  redmine_cas_settings_hide_local_login_helptext: "The user will go to the CAS Authentification if not already identified"
+  redmine_cas_settings_cas_button_text_helptext: "This text won't appear if local connexion is Hide"
+  redmine_cas_settings_cas_button_text_label: "Text of the CAS button connexion"
+  redmine_cas_settings_cas_between_text_label: "Text to show between different authentifications"

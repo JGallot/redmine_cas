@@ -1,18 +1,10 @@
-require 'redmine_cas'
+#require 'redmine_cas'
 
-module RedmineCAS
-  module ApplicationControllerPatch
-    def self.included(base)
-      base.send(:include, InstanceMethods)
-      base.class_eval do
-        alias_method_chain :verify_authenticity_token, :cas
-        alias_method_chain :require_login, :cas
-      end
-    end
-
+module RedmineCas
+  module ApplicationControllerPatch 
     module InstanceMethods
       def require_login_with_cas
-        return require_login_without_cas unless RedmineCAS.enabled?
+        return require_login_without_cas unless RedmineCas.enabled?
         if !User.current.logged?
           referrer = request.fullpath;
           respond_to do |format|

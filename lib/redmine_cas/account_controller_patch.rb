@@ -1,23 +1,15 @@
-require 'redmine_cas'
+require File.expand_path('../../../lib/redmine_cas.rb', __FILE__)
 
-module RedmineCAS
-  module AccountControllerPatch
-    def self.included(base)
-      base.send(:include, InstanceMethods)
-      base.class_eval do
-        alias_method_chain :logout, :cas
-      end
-    end
-
-    module InstanceMethods
+  module RedmineCas
+    module AccountControllerPatch 
       def logout_with_cas
-        return logout_without_cas unless RedmineCAS.enabled?
+        return logout_without_cas unless RedmineCas.enabled?
         logout_user
         CASClient::Frameworks::Rails::Filter.logout(self, home_url)
       end
 
       def cas
-        return redirect_to_action('login') unless RedmineCAS.enabled?
+        return redirect_to_action('login') unless RedmineCas.enabled?
 
         if User.current.logged?
           # User already logged in.
@@ -29,10 +21,10 @@ module RedmineCAS
           user = User.find_by_login(session[:cas_user])
 
           # Auto-create user if possible
-          if user.nil? && RedmineCAS.autocreate_users?
+          if user.nil? && RedmineCas.autocreate_users?
             user = User.new
             user.login = session[:cas_user]
-            user.assign_attributes(RedmineCAS.user_extra_attributes_from_session(session))
+            user.assign_attributes(RedmineCas.user_extra_attributes_from_session(session))
             return cas_user_not_created(user) if !user.save
             user.reload
           end
@@ -41,8 +33,9 @@ module RedmineCAS
           return cas_account_pending unless user.active?
 
           user.update_attribute(:last_login_on, Time.now)
-          user.update_attributes(RedmineCAS.user_extra_attributes_from_session(session))
-          if RedmineCAS.single_sign_out_enabled?
+	        # On ne gère pas les attributs
+          user.update_attributes(RedmineCas.user_extra_attributes_from_session(session))
+          if RedmineCas.single_sign_out_enabled?
             # logged_user= would start a new session and break single sign-out
             User.current = user
             start_user_session(user)
@@ -55,7 +48,10 @@ module RedmineCAS
       end
 
       def redirect_to_ref_or_default
-        default_url = url_for(params.merge(:ticket => nil))
+	
+	     #default_url = url_for(params.to_unsafe_h.merge(:ticket => nil))
+	      default_url = home_url
+	      #default_url = url_for(params.to_unsafe_h)
         if params.has_key?(:ref)
           # do some basic validation on ref, to prevent a malicious link to redirect
           # to another site.
@@ -86,4 +82,3 @@ module RedmineCAS
 
     end
   end
-end

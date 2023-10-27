@@ -1,7 +1,7 @@
 require 'casclient'
 require 'casclient/frameworks/rails/filter'
 
-module RedmineCAS
+module RedmineCas
   extend self
 
   def setting(name)

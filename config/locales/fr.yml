@@ -8,3 +8,8 @@ fr:
   redmine_cas_settings_autocreate_users_helptext: 'Créer automatiquement un utilisateur redmine s''il est authentifié avec succès.<br />Ceci ne fonctionnera que si vous spécifiez firstname, lastname et mail dans les associations d''attributs ci-dessus.'
   redmine_cas_user_not_found: 'L''utilisateur "%{user}" a été authentifié mais doit d''abord être créé dans Redmine.'
   redmine_cas_user_not_created: 'L''utilisateur "%{user}" a été authentifié, mais n''a pas pu être créé automatiquement dans Redmine. Il doit être ajouté manuellement.'
+  redmine_cas_settings_hide_local_login_label: 'Cacher la mire connexion locale'
+  redmine_cas_settings_hide_local_login_helptext: "L'utilisateur sera renvoyé directement vers l'authentification CAS s'il n'est pas déjà identifié"
+  redmine_cas_settings_cas_button_text_helptext: "Ce texte n'apparaîtra pas si la mire de connexion locale est cachée"
+  redmine_cas_settings_cas_button_text_label: 'Texte du bouton de connexion CAS'
+  redmine_cas_settings_cas_between_text_label: 'Texte affiché entre les deux modes de connexions'

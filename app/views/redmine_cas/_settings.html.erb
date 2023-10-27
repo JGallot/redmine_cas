@@ -17,3 +17,17 @@
   <%= check_box_tag "settings[autocreate_users]", 1, @settings[:autocreate_users] %>
   <em class="info"><%= l(:redmine_cas_settings_autocreate_users_helptext).html_safe %></em>
 </p>
+<p>
+  <%= label_tag "settings[hide_local_login]", l(:redmine_cas_settings_hide_local_login_label) %>
+  <%= check_box_tag "settings[hide_local_login]", 1, @settings[:hide_local_login] %>
+  <em class="info"><%= l(:redmine_cas_settings_hide_local_login_helptext).html_safe %></em>
+</p>
+<p>
+  <%= label_tag "settings[cas_button_text]", l(:redmine_cas_settings_cas_button_text_label) %>
+  <%= text_field_tag "settings[cas_button_text]", @settings[:cas_button_text], :size => 50 %>
+  <em class="info"><%= l(:redmine_cas_settings_cas_button_text_helptext).html_safe %></em>
+</p>
+<p>
+  <%= label_tag "settings[cas_between_text]", l(:redmine_cas_settings_cas_between_text_label) %>
+  <%= text_field_tag "settings[cas_between_text]", @settings[:cas_between_text], :size => 50 %>
+</p>
