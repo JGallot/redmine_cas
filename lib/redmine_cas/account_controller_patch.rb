@@ -74,10 +74,8 @@ require File.expand_path('../../../lib/redmine_cas.rb', __FILE__)
       end
 
       def redirect_to_ref_or_default
-	
-	     #default_url = url_for(params.to_unsafe_h.merge(:ticket => nil))
-	      default_url = home_url
-	      #default_url = url_for(params.to_unsafe_h)
+        #default_url = home_url
+	      default_url = url_for(params.to_unsafe_h)
         if params.has_key?(:ref)
           # do some basic validation on ref, to prevent a malicious link to redirect
           # to another site.
