@@ -4,7 +4,7 @@
 </p>
 <p>
   <%= label_tag "settings[cas_url]", l(:redmine_cas_settings_cas_url_label) %>
-  <%= text_field_tag "settings[cas_url]", @settings[:cas_url], :size => 50 %>
+  <%= text_field_tag "settings[cas_url]", @settings[:cas_url].html_safe, :size => 50 %>
   <em class="info"><%= l(:redmine_cas_settings_cas_url_helptext).html_safe %></em>
 </p>
 <p>
