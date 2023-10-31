@@ -2,8 +2,31 @@ require File.expand_path('../../../lib/redmine_cas.rb', __FILE__)
 
   module RedmineCas
     module AccountControllerPatch
+
+      def original_login
+        if request.post?
+          authenticate_user
+        else
+          if User.current.logged?
+            redirect_back_or_default home_url, :referer => true
+          end
+        end
+      rescue AuthSourceException => e
+        logger.error "An error occurred when authenticating #{params[:username]}: #{e.message}"
+        render_error :message => e.message
+      end
+
       def login
-        return redirect_to(:controller => "account", :action => "cas") # unless RedmineCas.enabled? && RedmineCas.hide_local_login?
+        if (RedmineCas.enabled?)
+          if RedmineCas.hide_local_login?
+            return redirect_to(:controller => "account", :action => "cas")
+          else
+            Rails.logger.info "CAS activé et  local login cacaahé" #original_login
+            original_login
+          end
+        else
+          original_login
+        end
       end
 
       def logout_with_cas
@@ -37,8 +60,7 @@ require File.expand_path('../../../lib/redmine_cas.rb', __FILE__)
           return cas_account_pending unless user.active?
 
           user.update_attribute(:last_login_on, Time.now)
-	        # On ne gère pas les attributs
-          user.update_attributes(RedmineCas.user_extra_attributes_from_session(session))
+	        user.update(RedmineCas.user_extra_attributes_from_session(session))
           if RedmineCas.single_sign_out_enabled?
             # logged_user= would start a new session and break single sign-out
             User.current = user

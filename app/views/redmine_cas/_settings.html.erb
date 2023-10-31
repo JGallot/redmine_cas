@@ -9,7 +9,7 @@
 </p>
 <p>
   <%= label_tag "settings[attributes_mapping]", l(:redmine_cas_settings_attributes_mapping_label) %>
-  <%= text_field_tag "settings[attributes_mapping]", @settings[:attributes_mapping], :size => 50 %>
+  <%= text_field_tag "settings[attributes_mapping]", @settings[:attributes_mapping], :size => 255 %>
   <em class="info"><%= l(:redmine_cas_settings_attributes_mapping_helptext, :attribute_names => User.attribute_names.join(', ')).html_safe %></em>
 </p>
 <p>
@@ -24,10 +24,10 @@
 </p>
 <p>
   <%= label_tag "settings[cas_button_text]", l(:redmine_cas_settings_cas_button_text_label) %>
-  <%= text_field_tag "settings[cas_button_text]", @settings[:cas_button_text], :size => 50 %>
+  <%= text_field_tag "settings[cas_button_text]", @settings[:cas_button_text], :size => 255 %>
   <em class="info"><%= l(:redmine_cas_settings_cas_button_text_helptext).html_safe %></em>
 </p>
 <p>
   <%= label_tag "settings[cas_between_text]", l(:redmine_cas_settings_cas_between_text_label) %>
-  <%= text_field_tag "settings[cas_between_text]", @settings[:cas_between_text], :size => 50 %>
+  <%= text_field_tag "settings[cas_between_text]", @settings[:cas_between_text], :size => 255 %>
 </p>
