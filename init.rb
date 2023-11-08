@@ -8,7 +8,7 @@ Redmine::Plugin.register :redmine_cas do
   name 'Redmine CAS'
   author 'Jérôme GALLOT (Original author : Nils Caspar (Nine Internet Solutions AG)'
   description 'Plugin to CASify your Redmine installation.'
-  version '1.3.0'
+  version '1.3.1'
   url 'https://github.com/JGallot/redmine_cas'
   author_url 'https://github.com/JGallot'
 
