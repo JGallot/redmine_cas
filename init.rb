@@ -23,11 +23,8 @@ Redmine::Plugin.register :redmine_cas do
 
   }, :partial => 'redmine_cas/settings'
 
-  RedmineApp::Application.config.after_initialize do
-    ApplicationController.prepend(RedmineCas::ApplicationControllerPatch)
-    AccountController.prepend(RedmineCas::AccountControllerPatch)
-  end
-
+  ApplicationController.prepend(RedmineCas::ApplicationControllerPatch)
+  AccountController.prepend(RedmineCas::AccountControllerPatch)
 
   ActionDispatch::Callbacks.before do
     RedmineCas.setup!
