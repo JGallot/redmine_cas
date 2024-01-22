@@ -18,7 +18,7 @@ module RedmineCas
       if (RedmineCas.enabled?)
         if RedmineCas.hide_local_login?
 
-       uri = URI(params['back_url']).path
+       uri = URI(params['back_url'])
        return redirect_to(:controller => "account", :action => "cas", :ref => uri.path  )
           else
           original_login
