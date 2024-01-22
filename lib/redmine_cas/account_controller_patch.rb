@@ -17,8 +17,10 @@ module RedmineCas
     def login
       if (RedmineCas.enabled?)
         if RedmineCas.hide_local_login?
-          return redirect_to(:controller => "account", :action => "cas")
-        else
+
+       uri = URI(params['back_url']).path
+       return redirect_to(:controller => "account", :action => "cas", :ref => uri.path  )
+          else
           original_login
         end
       else
@@ -28,6 +30,7 @@ module RedmineCas
     # Log out current user and redirect to welcome page
     def logout
       if RedmineCas.enabled?
+          logout_user
         logout_with_cas
       else
 
@@ -56,6 +59,22 @@ module RedmineCas
         redirect_to_ref_or_default
         return
       end
+
+      my_dest=nil
+      my_dest=params[:ref] unless !params.include?(:ref)
+
+      if my_dest.nil?
+        my_url="#{home_url}/#{action_name}?ref=/"
+      else
+        my_url="#{home_url}/#{action_name}?ref="+params[:ref]
+      end
+
+      CASClient::Frameworks::Rails::Filter.configure(
+        :service_url => my_url,
+        :cas_base_url => Setting.plugin_redmine_cas['cas_url'],
+        :logger => Rails.logger,
+        :enable_single_sign_out => RedmineCas.single_sign_out_enabled?
+      )
 
       if CASClient::Frameworks::Rails::Filter.filter(self)
         user = User.find_by_login(session[:cas_user])
@@ -88,8 +107,7 @@ module RedmineCas
 
     def redirect_to_ref_or_default
       default_url = home_url
-      #default_url = url_for(params.to_unsafe_h)
-      Rails.logger.info default_url
+      
       if params.has_key?(:ref)
         # do some basic validation on ref, to prevent a malicious link to redirect
         # to another site.
@@ -97,6 +115,7 @@ module RedmineCas
         if /http(s)?:\/\/|@/ =~ new_url
           # evil referrer!
           redirect_to default_url
+	  Rails.logger.info "Redirect to default uRL"
         else
           redirect_to request.base_url + params[:ref]
         end
